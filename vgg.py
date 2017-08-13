@@ -13,7 +13,7 @@ from keras.layers.convolutional import ZeroPadding2D
 from keras.layers.normalization import BatchNormalization
 from keras.initializers import glorot_normal
 from keras.utils import np_utils
-#from keras_sequential_ascii import sequential_model_to_ascii_printout
+from keras_sequential_ascii import sequential_model_to_ascii_printout
 from keras import backend as K
 if K.backend()=='tensorflow':
     K.set_image_dim_ordering("th")
@@ -37,7 +37,7 @@ from keras.datasets import cifar10
 
 batch_size = 32
 num_classes = 10
-epochs = 10
+epochs = 1
 data_augmentation = True
 
 (x_train, y_train), (x_test, y_test) = cifar10.load_data() # x_train - training data(images), y_train - labels(digits)
@@ -73,50 +73,67 @@ x_test /= 255
 
 def base_model():
     model = Sequential()
+
     model.add(ZeroPadding2D((1, 1), input_shape=x_train.shape[1:]))
-    model.add(Conv2D(64,(3, 3), activation='relu'))
+    model.add(Conv2D(64, (3, 3)))
+    model.add(Activation('relu'))
     model.add(ZeroPadding2D((1, 1)))
-    model.add(Conv2D(64, (3, 3), activation='relu'))
-    model.add(MaxPooling2D((2, 2), strides=(2, 2)))
+    model.add(Conv2D(64, (3, 3)))
+    model.add(Activation('relu'))
+    model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
 
     model.add(ZeroPadding2D((1, 1)))
-    model.add(Conv2D(128, (3, 3), activation='relu'))
+    model.add(Conv2D(128, (3, 3)))
+    model.add(Activation('relu'))
     model.add(ZeroPadding2D((1, 1)))
-    model.add(Conv2D(128, (3, 3), activation='relu'))
-    model.add(MaxPooling2D((2, 2), strides=(2, 2)))
+    model.add(Conv2D(128, (3, 3)))
+    model.add(Activation('relu'))
+    model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
 
     model.add(ZeroPadding2D((1, 1)))
-    model.add(Conv2D(256, (3, 3), activation='relu'))
+    model.add(Conv2D(256, (3, 3)))
+    model.add(Activation('relu'))
     model.add(ZeroPadding2D((1, 1)))
-    model.add(Conv2D(256, (3, 3), activation='relu'))
+    model.add(Conv2D(256, (3, 3)))
+    model.add(Activation('relu'))
     model.add(ZeroPadding2D((1, 1)))
-    model.add(Conv2D(256, (3, 3), activation='relu'))
-    model.add(MaxPooling2D((2, 2), strides=(2, 2)))
+    model.add(Conv2D(256, (3, 3)))
+    model.add(Activation('relu'))
+    model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
 
     model.add(ZeroPadding2D((1, 1)))
-    model.add(Conv2D(512, (3, 3), activation='relu'))
+    model.add(Conv2D(512, (3, 3)))
+    model.add(Activation('relu'))
     model.add(ZeroPadding2D((1, 1)))
-    model.add(Conv2D(512, (3, 3), activation='relu'))
+    model.add(Conv2D(512, (3, 3)))
+    model.add(Activation('relu'))
     model.add(ZeroPadding2D((1, 1)))
-    model.add(Conv2D(512, (3, 3), activation='relu'))
-    model.add(MaxPooling2D((2, 2), strides=(2, 2)))
+    model.add(Conv2D(512, (3, 3)))
+    model.add(Activation('relu'))
+    model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
 
     model.add(ZeroPadding2D((1, 1)))
-    model.add(Conv2D(512, (3, 3), activation='relu'))
+    model.add(Conv2D(512, (3, 3)))
+    model.add(Activation('relu'))
     model.add(ZeroPadding2D((1, 1)))
-    model.add(Conv2D(512, (3, 3), activation='relu'))
+    model.add(Conv2D(512, (3, 3)))
+    model.add(Activation('relu'))
     model.add(ZeroPadding2D((1, 1)))
-    model.add(Conv2D(512, (3, 3), activation='relu'))
-    model.add(MaxPooling2D((2, 2), strides=(2, 2)))
+    model.add(Conv2D(512, (3, 3)))
+    model.add(Activation('relu'))
+    model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
 
     model.add(Flatten())
-    model.add(Dense(4096, activation='relu'))
+    model.add(Dense(4096))
+    model.add(Activation('relu'))
     model.add(Dropout(0.5))
-    model.add(Dense(4096, activation='relu'))
+    model.add(Dense(4096))
+    model.add(Activation('relu'))
     model.add(Dropout(0.5))
-    model.add(Dense(num_classes, activation='softmax'))
-
+    model.add(Dense(num_classes))
+    model.add(Activation('softmax'))
     sgd = SGD(lr=0.1, decay=1e-6, nesterov=True)
+
     # Train model
 
     model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
@@ -126,93 +143,12 @@ def base_model():
 cnn_n = base_model()
 cnn_n.summary()
 
-'''
-    model.add(Conv2D(64, (3, 3), padding='same',
-                     input_shape=x_train.shape[1:], kernel_initializer=glorot_normal()))
-    model.add(Activation('relu'))
-    model.add(BatchNormalization())
-    model.add(Dropout(0.3))
 
-    model.add(Conv2D(64, (3, 3), padding='same', kernel_initializer=glorot_normal()))
-    model.add(Activation('relu'))
-    model.add(BatchNormalization())
-
-    model.add(MaxPooling2D(pool_size=(2, 2)))
-
-    model.add(Conv2D(128, (3, 3), padding='same', kernel_initializer=glorot_normal()))
-    model.add(Activation('relu'))
-    model.add(BatchNormalization())
-    model.add(Dropout(0.4))
-
-    model.add(Conv2D(128, (3, 3), padding='same', kernel_initializer=glorot_normal()))
-    model.add(Activation('relu'))
-    model.add(BatchNormalization())
-
-    model.add(MaxPooling2D(pool_size=(2, 2)))
-
-    model.add(Conv2D(256, (3, 3), padding='same', kernel_initializer=glorot_normal()))
-    model.add(Activation('relu'))
-    model.add(BatchNormalization())
-    model.add(Dropout(0.4))
-
-    model.add(Conv2D(256, (3, 3), padding='same', kernel_initializer=glorot_normal()))
-    model.add(Activation('relu'))
-    model.add(BatchNormalization())
-    model.add(Dropout(0.4))
-
-    model.add(Conv2D(256, (3, 3), padding='same', kernel_initializer=glorot_normal()))
-    model.add(Activation('relu'))
-    model.add(BatchNormalization())
-
-    model.add(MaxPooling2D(pool_size=(2, 2)))
-
-    model.add(Conv2D(512, (3, 3), padding='same', kernel_initializer=glorot_normal()))
-    model.add(Activation('relu'))
-    model.add(BatchNormalization())
-    model.add(Dropout(0.4))
-
-    model.add(Conv2D(512, (3, 3), padding='same', kernel_initializer=glorot_normal()))
-    model.add(Activation('relu'))
-    model.add(BatchNormalization())
-    model.add(Dropout(0.4))
-
-    model.add(Conv2D(512, (3, 3), padding='same', kernel_initializer=glorot_normal()))
-    model.add(Activation('relu'))
-    model.add(BatchNormalization())
-
-    model.add(MaxPooling2D(pool_size=(2, 2)))
-
-    model.add(Conv2D(512, (3, 3), padding='same', kernel_initializer=glorot_normal()))
-    model.add(Activation('relu'))
-    model.add(BatchNormalization())
-    model.add(Dropout(0.4))
-
-    model.add(Conv2D(512, (3, 3), padding='same', kernel_initializer=glorot_normal()))
-    model.add(Activation('relu'))
-    model.add(BatchNormalization())
-    model.add(Dropout(0.4))
-
-    model.add(Conv2D(512, (3, 3), padding='same', kernel_initializer=glorot_normal()))
-    model.add(Activation('relu'))
-    model.add(BatchNormalization())
-
-    model.add(MaxPooling2D(pool_size=(2, 2)))
-    model.add(Dropout(0.5))
-
-    model.add(Flatten())
-    model.add(Dense(512))
-    model.add(Activation('relu'))
-    model.add(BatchNormalization())
-
-    model.add(Dropout(0.5))
-    model.add(Dense(num_classes))
-    model.add(Activation('softmax'))
-    '''
 
 
 # Visualizing model structure
 
-#sequential_model_to_ascii_printout(cnn_n)
+sequential_model_to_ascii_printout(cnn_n)
 
 # Fit model
 
