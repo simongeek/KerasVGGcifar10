@@ -1,5 +1,43 @@
 # Keras VGG implementation for cifar-10 clasification
 
+## What is Keras?
+
+"Keras is an open source neural network library written in Python and capable of running on top of either [TensorFlow](https://www.tensorflow.org/), [CNTK](https://github.com/Microsoft/CNTK) or [Theano](http://deeplearning.net/software/theano/). 
+
+Use Keras if you need a deep learning libraty that:
+* Allows for easy and fast prototyping
+* Supports both convolutional networks and recurrent networks, as well as combinations of the two
+* Runs seamlessly on CPU and GPU
+
+Keras is compatible with Python 2.7-3.5"[1].
+
+Since Semptember 2016, Keras is the second-fastest growing Deep Learning framework after Google's Tensorflow, and the third largest after Tensorflow and Caffe[2].
+
+## What is Deep Learning?
+
+"Deep Learning is the application to learning tasks of artificial neural networks(ANNs) that contain more than one hidden layer. Deep learning is part of [Machine Learning](https://en.wikipedia.org/wiki/Machine_learning) methods based on learning data representations.
+Learning can be [supervised](https://en.wikipedia.org/wiki/Supervised_learning), parially supervised or [unsupervised](https://en.wikipedia.org/wiki/Unsupervised_learning)[3]."
+
+
+## What will you learn?
+
+
+You will learn:
+
+* What is Keras library and how to use it
+* What is Deep Learning
+* How to use ready datasets
+* What is Convolutional Neural Networks(CNN)
+* How to build step by step Convolutional Neural Networks(CNN)
+* What are differences in model results
+* What is supervised and unsupervised learning
+* Basics of Machine Learning
+* Introduction to Artificial Intelligence(AI)
+
+## Project structure
+
+* vgg.py - simple example of VGG16 neural net
+* README.md - description of this project
 
 ## Convolutional Neural Network
 ### VGG-16 neural network
@@ -85,7 +123,7 @@ OPERATION           DATA DIMENSIONS   WEIGHTS(N)   WEIGHTS(%)
              softmax   #####          10
 ```
 
-####Model
+#### Model
 
 ```
     model = Sequential()
@@ -151,7 +189,7 @@ OPERATION           DATA DIMENSIONS   WEIGHTS(N)   WEIGHTS(%)
     sgd = SGD(lr=0.1, decay=1e-6, nesterov=True)
 
 ```
-Train model:
+#### Train model:
 ```
 model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
     return model
@@ -161,12 +199,12 @@ cnn_n = base_model()
 cnn_n.summary()
 ```
 
-Fit model:
+#### Fit model:
 ```
 cnn = cnn_n.fit(x_train,y_train, batch_size=batch_size, epochs=epochs,validation_data=(x_test,y_test),shuffle=True)
 ```
 
-Results:
+#### Results:
 
 All results are for 50k iteration, learning rate=0.01. Neural networks have benn trained at 16 cores and 16GB RAM on [plon.io](https://plon.io/).
 
@@ -208,3 +246,6 @@ Time of learning process: **xxx**
 ## Resources
 
 ## Grab the code or run project in online IDE
+
+
+You can also check [here](https://github.com/simongeek/KerasT) my other Keras Cifar-10 classification using 4,6-layer neural nets.
