@@ -208,9 +208,25 @@ cnn = cnn_n.fit(x_train,y_train, batch_size=batch_size, epochs=epochs,validation
 
 All results are for 50k iteration, learning rate=0.01. Neural networks have benn trained at 16 cores and 16GB RAM on [plon.io](https://plon.io/).
 
-* epochs = 10 **accuracy=%**
+* epochs = 10 **accuracy=10.0%**
+
+[x](https://plon.io/files/599089b3fa48b400014a1974)
+[y](https://plon.io/files/599089b4fa48b400014a1976)
 
 **Confusion matrix result:**
+
+```
+[[   0    0    0    0    0    0    0    0    0 1000]
+ [   0    0    0    0    0    0    0    0    0 1000]
+ [   0    0    0    0    0    0    0    0    0 1000]
+ [   0    0    0    0    0    0    0    0    0 1000]
+ [   0    0    0    0    0    0    0    0    0 1000]
+ [   0    0    0    0    0    0    0    0    0 1000]
+ [   0    0    0    0    0    0    0    0    0 1000]
+ [   0    0    0    0    0    0    0    0    0 1000]
+ [   0    0    0    0    0    0    0    0    0 1000]
+ [   0    0    0    0    0    0    0    0    0 1000]]
+```
 
 **Confusion matrix vizualizing**
 

@@ -18,6 +18,8 @@ from keras import backend as K
 if K.backend()=='tensorflow':
     K.set_image_dim_ordering("th")
 
+BATCH_NORM = False
+
 # import TensorFlow with multiprocessing for use 16 cores on plon.io
 import tensorflow as tf
 import multiprocessing as mp
@@ -74,63 +76,90 @@ x_test /= 255
 def base_model():
     model = Sequential()
 
-    model.add(ZeroPadding2D((1, 1), input_shape=x_train.shape[1:]))
-    model.add(Conv2D(64, (3, 3)))
+    model.add(Conv2D(64, (3, 3), padding='same', input_shape=x_train.shape[1:], name='block1_conv1'))
+    model.add(BatchNormalization()) if BATCH_NORM else None
     model.add(Activation('relu'))
-    model.add(ZeroPadding2D((1, 1)))
-    model.add(Conv2D(64, (3, 3)))
-    model.add(Activation('relu'))
-    model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
 
-    model.add(ZeroPadding2D((1, 1)))
-    model.add(Conv2D(128, (3, 3)))
+    model.add(Conv2D(64, (3, 3), padding='same', name='block1_conv2'))
+    model.add(BatchNormalization()) if BATCH_NORM else None
     model.add(Activation('relu'))
-    model.add(ZeroPadding2D((1, 1)))
-    model.add(Conv2D(128, (3, 3)))
-    model.add(Activation('relu'))
-    model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
 
-    model.add(ZeroPadding2D((1, 1)))
-    model.add(Conv2D(256, (3, 3)))
-    model.add(Activation('relu'))
-    model.add(ZeroPadding2D((1, 1)))
-    model.add(Conv2D(256, (3, 3)))
-    model.add(Activation('relu'))
-    model.add(ZeroPadding2D((1, 1)))
-    model.add(Conv2D(256, (3, 3)))
-    model.add(Activation('relu'))
-    model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
+    model.add(MaxPooling2D((2, 2), strides=(2, 2), name='block1_pool'))
 
-    model.add(ZeroPadding2D((1, 1)))
-    model.add(Conv2D(512, (3, 3)))
+    model.add(Conv2D(128, (3, 3), padding='same', name='block2_conv1'))
+    model.add(BatchNormalization()) if BATCH_NORM else None
     model.add(Activation('relu'))
-    model.add(ZeroPadding2D((1, 1)))
-    model.add(Conv2D(512, (3, 3)))
-    model.add(Activation('relu'))
-    model.add(ZeroPadding2D((1, 1)))
-    model.add(Conv2D(512, (3, 3)))
-    model.add(Activation('relu'))
-    model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
 
-    model.add(ZeroPadding2D((1, 1)))
-    model.add(Conv2D(512, (3, 3)))
+    model.add(Conv2D(128, (3, 3), padding='same', name='block2_conv2'))
+    model.add(BatchNormalization()) if BATCH_NORM else None
     model.add(Activation('relu'))
-    model.add(ZeroPadding2D((1, 1)))
-    model.add(Conv2D(512, (3, 3)))
+    model.add(MaxPooling2D((2, 2), strides=(2, 2), name='block2_pool'))
+
+    model.add(Conv2D(256, (3, 3), padding='same', name='block3_conv1'))
+    model.add(BatchNormalization()) if BATCH_NORM else None
     model.add(Activation('relu'))
-    model.add(ZeroPadding2D((1, 1)))
-    model.add(Conv2D(512, (3, 3)))
+
+    model.add(Conv2D(256, (3, 3), padding='same', name='block3_conv2'))
+    model.add(BatchNormalization()) if BATCH_NORM else None
     model.add(Activation('relu'))
-    model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
+
+    model.add(Conv2D(256, (3, 3), padding='same', name='block3_conv3'))
+    model.add(BatchNormalization()) if BATCH_NORM else None
+    model.add(Activation('relu'))
+
+    model.add(Conv2D(256, (3, 3), padding='same', name='block3_conv4'))
+    model.add(BatchNormalization()) if BATCH_NORM else None
+    model.add(Activation('relu'))
+
+    model.add(MaxPooling2D((2, 2), strides=(2, 2), name='block3_pool'))
+
+    model.add(Conv2D(512, (3, 3), padding='same', name='block4_conv1'))
+    model.add(BatchNormalization()) if BATCH_NORM else None
+    model.add(Activation('relu'))
+
+    model.add(Conv2D(512, (3, 3), padding='same', name='block4_conv2'))
+    model.add(BatchNormalization()) if BATCH_NORM else None
+    model.add(Activation('relu'))
+
+    model.add(Conv2D(512, (3, 3), padding='same', name='block4_conv3'))
+    model.add(BatchNormalization()) if BATCH_NORM else None
+    model.add(Activation('relu'))
+
+    model.add(Conv2D(512, (3, 3), padding='same', name='block4_conv4'))
+    model.add(BatchNormalization()) if BATCH_NORM else None
+    model.add(Activation('relu'))
+    model.add(MaxPooling2D((2, 2), strides=(2, 2), name='block4_pool'))
+
+    model.add(Conv2D(512, (3, 3), padding='same', name='block5_conv1'))
+    model.add(BatchNormalization()) if BATCH_NORM else None
+    model.add(Activation('relu'))
+
+    model.add(Conv2D(512, (3, 3), padding='same', name='block5_conv2'))
+    model.add(BatchNormalization()) if BATCH_NORM else None
+    model.add(Activation('relu'))
+
+    model.add(Conv2D(512, (3, 3), padding='same', name='block5_conv3'))
+    model.add(BatchNormalization()) if BATCH_NORM else None
+    model.add(Activation('relu'))
+
+    model.add(Conv2D(512, (3, 3), padding='same', name='block5_conv4'))
+    model.add(BatchNormalization()) if BATCH_NORM else None
+    model.add(Activation('relu'))
 
     model.add(Flatten())
+
     model.add(Dense(4096))
+    model.add(BatchNormalization()) if BATCH_NORM else None
     model.add(Activation('relu'))
     model.add(Dropout(0.5))
-    model.add(Dense(4096))
+
+    model.add(Dense(4096, name='fc2'))
+    model.add(BatchNormalization()) if BATCH_NORM else None
     model.add(Activation('relu'))
     model.add(Dropout(0.5))
-    model.add(Dense(num_classes))
+
+    model.add(Dense(10))
+    model.add(BatchNormalization()) if BATCH_NORM else None
     model.add(Activation('softmax'))
     sgd = SGD(lr=0.1, decay=1e-6, nesterov=True)
 
