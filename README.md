@@ -1,4 +1,4 @@
-# Keras VGG implementation for cifar-10 clasification
+# Keras VGG implementation for cifar-10 classification
 
 ## What is Keras?
 
