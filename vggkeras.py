@@ -7,9 +7,7 @@ from keras.layers import Flatten
 from keras.constraints import maxnorm
 from keras.optimizers import SGD
 from keras.layers import Activation
-from keras.layers.convolutional import Conv2D
-from keras.layers.convolutional import MaxPooling2D
-from keras.layers.convolutional import ZeroPadding2D
+from keras.layers.convolutional import Conv2D, MaxPooling2D, ZeroPadding2D
 from keras.layers.normalization import BatchNormalization
 from keras.initializers import glorot_normal
 from keras.utils import np_utils
@@ -18,9 +16,7 @@ from keras import backend as K
 if K.backend()=='tensorflow':
     K.set_image_dim_ordering("th")
 
-BATCH_NORM = False
-
-# import TensorFlow with multiprocessing for use 16 cores on plon.io
+# Import Tensorflow with multiprocessing
 import tensorflow as tf
 import multiprocessing as mp
 
@@ -31,13 +27,15 @@ config = tf.ConfigProto(
     intra_op_parallelism_threads=core_num)
 sess = tf.Session(config=config)
 
-# Loading the CIFAR-10 Dataset
+# Loading the CIFAR-10 dataset
 
 from keras.datasets import cifar10
 
 # Declare variables
 
-batch_size = 32
+BATCH_NORM = False
+
+batch_size = 128
 num_classes = 10
 epochs = 1
 data_augmentation = True
@@ -71,8 +69,8 @@ x_test = x_test.astype('float32')
 x_train  /= 255
 x_test /= 255
 
-# Define Model
 
+# Define Model
 def base_model():
     model = Sequential()
 
@@ -163,25 +161,16 @@ def base_model():
     model.add(Activation('softmax'))
     sgd = SGD(lr=0.1, decay=1e-6, nesterov=True)
 
-    # Train model
+
+    sgd = SGD(lr=0.0005, decay=1e-6, nesterov=True)
 
     model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
     return model
 
-
 cnn_n = base_model()
 cnn_n.summary()
 
-
-
-
-# Visualizing model structure
-
-sequential_model_to_ascii_printout(cnn_n)
-
-# Fit model
-
-cnn = cnn_n.fit(x_train,y_train, batch_size=batch_size, epochs=epochs,validation_data=(x_test,y_test),shuffle=True)
+cnn = cnn_n.fit(x_train, y_train, batch_size=batch_size, epochs=epochs, validation_data=(x_test,y_test), shuffle=True)
 
 
 # Plots for trainng and testing process: loss and accuracy
