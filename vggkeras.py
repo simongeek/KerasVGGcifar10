@@ -172,6 +172,9 @@ cnn_n.summary()
 
 cnn = cnn_n.fit(x_train, y_train, batch_size=batch_size, epochs=epochs, validation_data=(x_test,y_test), shuffle=True)
 
+# Vizualizing model structure
+
+sequential_model_to_ascii_printout(cnn_n)
 
 # Plots for trainng and testing process: loss and accuracy
 
