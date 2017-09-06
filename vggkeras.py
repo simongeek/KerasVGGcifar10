@@ -156,7 +156,7 @@ def base_model():
     model.add(Activation('relu'))
     model.add(Dropout(0.5))
 
-    model.add(Dense(10))
+    model.add(Dense(num_classes))
     model.add(BatchNormalization()) if BATCH_NORM else None
     model.add(Activation('softmax'))
     sgd = SGD(lr=0.1, decay=1e-6, nesterov=True)
